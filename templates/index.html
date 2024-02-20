@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Clothes</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Update Your Wardrobe</h1>
+    <div class="upload-form">
+        <form action="/" method="post" enctype="multipart/form-data">
+            <label for="category">Category:</label>
+            <select id="category" name="category">
+                <option value="">Select Existing Category</option>
+                {% for category in categories %}
+                    <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+            <label for="new_category">Or Add New Category:</label>
+            <input type="text" id="new_category" name="new_category">
+            <input type="file" name="file">
+            <input type="submit" value="Upload">
+        </form>
+    </div>
+    
+    <div class="container">
+        <h2>Wardrobe</h2>
+        <button id="create-outfit-btn" name="action" value="create_outfit">Create Outfit</button>
+        {% for category in categories %}
+            <div class="category">
+                <h3>{{ category }}</h3>
+                <div class="image-container">
+                    {% for cloth in clothes %}
+                        {% if cloth[1] == category %}
+                            <div class="image-wrapper">
+                                <img src="{{ url_for('uploaded_file', filename=cloth[2]) }}" alt="{{ cloth[2] }}">
+                                <form action="/delete" method="post">
+                                    <input type="hidden" name="filename" value="{{ cloth[2] }}">
+                                    <button type="submit" class="delete-btn">×</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
