@@ -1,6 +1,4 @@
-// static/script.js
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Function to fetch one random item from each category
     async function getRandomItems() {
         const categories = document.querySelectorAll('.category');
@@ -81,4 +79,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+
+    // Close the popup when clicking outside of it
+    document.addEventListener('click', closePopupOutside);
+
+    function closePopupOutside(event) {
+        const popupContainer = document.querySelector('.outfit-popup-container');
+        if (popupContainer && !popupContainer.contains(event.target) && event.target !== createOutfitBtn) {
+            popupContainer.remove();
+        }
+    }
 });
